@@ -51,3 +51,17 @@ if uploaded_file is not None:
         st.subheader("🎨 Colores Dominantes")
         cluster_colors = np.reshape(centers, (1, n_clusters, 3))
         st.image(cluster_colors, width=300)
+        # Calcular tamaños de los clusters
+unique, counts = np.unique(labels, return_counts=True)
+total_pixels = len(labels)
+cluster_sizes = dict(zip(unique, counts))
+
+# Mostrar información de los clusters
+st.subheader("📊 Tamaño de cada Segmento (en porcentaje)")
+for cluster_id in sorted(cluster_sizes.keys()):
+    percentage = (cluster_sizes[cluster_id] / total_pixels) * 100
+    color = centers[cluster_id]
+    st.markdown(
+        f"**Cluster {cluster_id}** - Color: RGB({color[0]}, {color[1]}, {color[2]}) - "
+        f"**{percentage:.2f}%** de la imagen"
+    )
